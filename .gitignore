@@ -2,3 +2,4 @@ node_modules/
 .vscode/
 nestjs-cat-mocking/dist/
 nestjs-test-project/.env
+nextjs-frontend
