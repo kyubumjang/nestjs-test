@@ -12,6 +12,12 @@ export class CatsRepository {
    * 이렇게 직접적으로 에러처리도 할 수 있음. 현재는 mongoose로 validation 체크를 처리하고 있음
    * try catch로 error 발생시 HttpException('db error, 400)
    */
+
+  async findCatByEmail(email: string): Promise<Cat | null> {
+    const cat = await this.catModel.findOne({ email });
+    return cat;
+  }
+
   async existsByEmail(email: string): Promise<{ _id: any }> {
     const result = await this.catModel.exists({ email });
     return result;
