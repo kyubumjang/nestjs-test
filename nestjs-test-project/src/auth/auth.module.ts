@@ -9,6 +9,7 @@ import { JwtStrategy } from './jwt/jwt.strategy';
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt', session: false }),
     JwtModule.register({
+      // 특정 키로 env 파일에 관리해야됨
       secret: 'secret',
       signOptions: { expiresIn: '1y' },
     }),
