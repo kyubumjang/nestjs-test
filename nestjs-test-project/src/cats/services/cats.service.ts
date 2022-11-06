@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { CatsRepository } from '../cats.repository';
@@ -7,6 +8,23 @@ import { CatRequestDto } from '../dto/cats.request.dto';
 @Injectable()
 export class CatsService {
   constructor(private readonly catsRepository: CatsRepository) {}
+
+  async getAllCat() {
+    const allCat = await this.catsRepository.findAll();
+    const readOnlyData = allCat.map((cat) => cat.readOnlyData);
+    return readOnlyData;
+  }
+
+  async uploadImg(cat: Cat, files: Express.Multer.File[]) {
+    const fileName = `cats/${files[0].filename}`;
+    console.log(fileName);
+    const newCat = await this.catsRepository.findByIdAndUpdateImg(
+      cat.id,
+      fileName,
+    );
+    console.log(newCat);
+    return newCat;
+  }
 
   async signUp(body: CatRequestDto) {
     // DB에 Body에서 넘어오는 email, password, name을 저장해야됨
@@ -26,16 +44,5 @@ export class CatsService {
     });
 
     return cat.readOnlyData;
-  }
-
-  async uploadImg(cat: Cat, files: Express.Multer.File[]) {
-    const fileName = `cats/${files[0].filename}`;
-    console.log(fileName);
-    const newCat = await this.catsRepository.findByIdAndUpdateImg(
-      cat.id,
-      fileName,
-    );
-    console.log(newCat);
-    return newCat;
   }
 }

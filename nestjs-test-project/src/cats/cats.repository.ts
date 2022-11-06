@@ -13,6 +13,10 @@ export class CatsRepository {
    * try catch로 error 발생시 HttpException('db error, 400)
    */
 
+  async findAll() {
+    return await this.catModel.find();
+  }
+
   async findByIdAndUpdateImg(id: string, fileName: string) {
     const cat = await this.catModel.findById(id);
     cat.imgUrl = `http://localhost:8000/media/${fileName}`;
